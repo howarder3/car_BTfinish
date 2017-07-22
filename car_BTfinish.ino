@@ -3,8 +3,8 @@
 
 #define FRONT_MOTOR_PIN 11
 #define BACK_MOTOR_PWM 3
-#define BACK_MOTOR_FORWARD 6
-#define BACK_MOTOR_BACKWARD 5
+#define BACK_MOTOR_FORWARD 5
+#define BACK_MOTOR_BACKWARD 6
 #define STANDBY 4
 #define BT_TX 8 
 #define BT_RX 9 
