@@ -18,6 +18,7 @@
 
 #define SPEED 255
 
+int current_speed;
 Servo servo;
 SoftwareSerial BT(BT_TX, BT_RX);
 
@@ -35,6 +36,7 @@ void setup()
     digitalWrite(BACK_MOTOR_FORWARD, LOW);
     digitalWrite(BACK_MOTOR_BACKWARD, LOW);
     digitalWrite(STANDBY, HIGH);
+    current_speed = SPEED;
 
     servo.attach(FRONT_MOTOR_PIN);
     Serial.println("CAR is ready!");
@@ -67,7 +69,7 @@ void loop()
             servo.write(90);
             digitalWrite(BACK_MOTOR_FORWARD, HIGH);
             digitalWrite(BACK_MOTOR_BACKWARD, LOW);
-            analogWrite(BACK_MOTOR_PWM, SPEED);
+            analogWrite(BACK_MOTOR_PWM, current_speed);
             Serial.print("Forward");
             break;
           case '1':
@@ -75,30 +77,43 @@ void loop()
             servo.write(90);
             digitalWrite(BACK_MOTOR_FORWARD, LOW);
             digitalWrite(BACK_MOTOR_BACKWARD, HIGH);
-            analogWrite(BACK_MOTOR_PWM, SPEED);
+            analogWrite(BACK_MOTOR_PWM, current_speed);
             Serial.print("Backward");
             break;
           case '2':
             digitalWrite(STANDBY, HIGH);
             servo.write(120);
-            analogWrite(BACK_MOTOR_PWM, SPEED);
+            analogWrite(BACK_MOTOR_PWM, current_speed);
             Serial.print("Right");
             break;
           case '3':
             digitalWrite(STANDBY, HIGH);
             servo.write(60);
-            analogWrite(BACK_MOTOR_PWM, SPEED);
+            analogWrite(BACK_MOTOR_PWM, current_speed);
             Serial.print("Left");
             break;
           case '4':
             digitalWrite(STANDBY, HIGH);
-            analogWrite(BACK_MOTOR_PWM, SPEED/2);
+            current_speed /= 2;
+            if(current_speed <= 65 )
+                 current_speed = 64;
+            analogWrite(BACK_MOTOR_PWM, current_speed);
             Serial.print("Slow");
             break;
           case '5':
             digitalWrite(STANDBY, LOW);
+            current_speed = SPEED;
             Serial.print("Stop");
             break;
+          case '6':
+            digitalWrite(STANDBY, HIGH);
+            current_speed *= 2;
+            if(current_speed >= 255)
+                 current_speed = 255;
+            analogWrite(BACK_MOTOR_PWM, current_speed);
+            Serial.print("fast");
+            break;
+            
         }
     }
 }
